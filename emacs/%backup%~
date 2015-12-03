@@ -1,0 +1,28 @@
+<pre>
+<?php
+
+require_once 'yahooConnect.php';
+require_once 'rakutenConnect.php';
+require_once 'outputCsv.php';
+require_once 'amazon.php';
+$yahooAuc = new yahooAuc();
+$yahooAuc->setParam('ビジネス', 'bids', '2084033829', 1);
+$result = $yahooAuc->getData();
+$itemList = $result[ResultSet][Result][Item];
+$array = array();
+foreach($itemList as $item) {
+  array_push($array, array('flg' => '1'
+			   ,'shohin_name' => $item[Title]
+			   ,'price' => $item[CurrentPrice]
+			   , 'url' =>  $item[ItemUrl]));
+}
+// $rakutenAuc = new rakutenAuc();
+// $rakutenAuc->setParam("サンダー", "-bidCount");
+// print_r($rakutenAuc->getData());
+
+$outputCsv = new outputCsv();
+//$outputCsv->output($array);
+$amazon = new amazon();
+$amazon->getData('広辞苑');
+?>
+</pre>
